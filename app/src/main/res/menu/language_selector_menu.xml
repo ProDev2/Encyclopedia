@@ -1,0 +1,11 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/language_selector_add"
+        android:icon="@mipmap/ic_add_box"
+        android:title="@string/add"
+        app:showAsAction="ifRoom"/>
+
+</menu>

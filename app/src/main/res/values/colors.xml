@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#00000000</color>
+    <color name="colorPrimary">#4285F4</color>
+    <color name="colorPrimaryDark">#356AC3</color>
+    <color name="colorAccent">#4285F4</color>
+    <color name="textColor">#ffffff</color>
+    <color name="toolbarTextColorPrimary">#ffffff</color>
+    <color name="toolbarTextColorSecondary">#ffffff</color>
+
+    <color name="colorDefault">#212121</color>
+    <color name="colorHighlight">#4285F4</color>
+
+    <color name="refresh_color">@color/colorPrimary</color>
+</resources>
