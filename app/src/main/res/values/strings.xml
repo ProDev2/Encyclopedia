@@ -36,4 +36,6 @@
     <string name="enter_text">Click here to enter text</string>
 
     <string name="translations_found_info">(@c translations)</string>
+    
+    <string name="copied">Copied to clipboard</string>
 </resources>

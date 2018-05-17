@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import com.prodev.encyclopedia.MainActivity;
 import com.prodev.encyclopedia.R;
 import com.prodev.encyclopedia.adapter.WordSetAdapter;
+import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.container.WordSet;
 import com.prodev.encyclopedia.dialogs.custom.WordAddDialog;
 import com.prodev.encyclopedia.fetcher.EncyclopediaFetcher;
 import com.prodev.encyclopedia.interfaces.Encyclopedia;
 import com.simplelib.SimpleFragment;
+import com.simplelib.container.SimpleFilter;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,9 @@ public class WordsFragment extends SimpleFragment {
     private SearchView searchView;
 
     private ViewGroup contentLayout;
+
+    private String searchFor;
+    private SimpleFilter<WordSet> filter;
 
     private RecyclerView list;
     private LinearLayoutManager manager;
@@ -51,6 +56,8 @@ public class WordsFragment extends SimpleFragment {
             encyclopedia.getAllWords(sets);
         } catch (Exception e) {
         }
+
+        createFilter();
 
         list = (RecyclerView) findViewById(R.id.words_fragment_list);
 
@@ -76,6 +83,7 @@ public class WordsFragment extends SimpleFragment {
                 openDeleteBar(set);
             }
         };
+        adapter.setFilter(filter);
         list.setAdapter(adapter);
 
         addButton = (FloatingActionButton) findViewById(R.id.words_fragment_add);
@@ -101,16 +109,35 @@ public class WordsFragment extends SimpleFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String text) {
+                searchFor = text;
+                if (adapter != null) adapter.updateFilter();
+
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String text) {
-
+                searchFor = text;
+                if (adapter != null) adapter.updateFilter();
 
                 return true;
             }
         });
+    }
+
+    private void createFilter() {
+        filter = new SimpleFilter<WordSet>() {
+            @Override
+            public boolean filter(WordSet set) {
+                if (searchFor != null && searchFor.length() > 0) {
+                    for (Word word : set)
+                        if (word.getText().toLowerCase().contains(searchFor.toLowerCase()))
+                            return true;
+                    return false;
+                } else
+                    return true;
+            }
+        };
     }
 
     private boolean canAddWord() {
@@ -216,6 +243,11 @@ public class WordsFragment extends SimpleFragment {
     public boolean back() {
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
+            return false;
+        }
+
+        if (searchFor != null && searchFor.length() > 0) {
+            searchFor = null;
             return false;
         }
 

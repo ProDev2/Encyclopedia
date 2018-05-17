@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.prodev.encyclopedia.Config;
 import com.prodev.encyclopedia.MainActivity;
@@ -25,13 +26,17 @@ import com.prodev.encyclopedia.adapter.TranslationAdapter;
 import com.prodev.encyclopedia.adapter.TranslationViewerAdapter;
 import com.prodev.encyclopedia.container.Language;
 import com.prodev.encyclopedia.container.Translation;
+import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.helper.SearchHelper;
 import com.prodev.encyclopedia.helper.TranslationHelper;
+import com.prodev.encyclopedia.tools.CopyTools;
 import com.simplelib.SimpleFragment;
 import com.simplelib.math.Vector2;
 
 public class TranslationFragment extends SimpleFragment {
     private TranslationHelper translationHelper;
+
+    private Translation lastTranslation;
 
     private ConstraintLayout switchLayout;
 
@@ -49,6 +54,7 @@ public class TranslationFragment extends SimpleFragment {
     private CardView translationLayout;
 
     private Button translationHeaderButton;
+    private ImageButton translationCopyButton;
 
     private RecyclerView translationView;
     private LinearLayoutManager translationManager;
@@ -157,6 +163,25 @@ public class TranslationFragment extends SimpleFragment {
         translationLayout = (CardView) findViewById(R.id.translation_fragment_translation_layout);
 
         translationHeaderButton = (Button) findViewById(R.id.translation_fragment_translation_header);
+        translationCopyButton = (ImageButton) findViewById(R.id.translation_fragment_translation_copy);
+
+        translationCopyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lastTranslation != null) {
+                    StringBuilder builder = new StringBuilder();
+                    for (Word word : lastTranslation) {
+                        if (builder.toString().length() > 0)
+                            builder.append(",\n");
+                        builder.append(word.getText());
+                    }
+
+                    CopyTools.setClipboard(getActivity(), builder.toString());
+
+                    Toast.makeText(getActivity(), getString(R.string.copied), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //Translation recycler view
         translationView = (RecyclerView) findViewById(R.id.translation_fragment_translation_list);
@@ -345,10 +370,14 @@ public class TranslationFragment extends SimpleFragment {
     }
 
     private void hideTranslation() {
+        lastTranslation = null;
+
         translationLayout.setVisibility(View.GONE);
     }
 
     private void selectTranslation(Translation translation) {
+        lastTranslation = translation;
+
         translationLayout.setVisibility(View.VISIBLE);
 
         translationAdapter.getList().clear();

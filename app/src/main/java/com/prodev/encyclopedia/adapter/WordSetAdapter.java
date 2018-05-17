@@ -12,10 +12,11 @@ import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.container.WordSet;
 import com.prodev.encyclopedia.dialogs.custom.EditDialog;
 import com.simplelib.adapter.SimpleRecyclerAdapter;
+import com.simplelib.adapter.SimpleRecyclerFilterAdapter;
 
 import java.util.ArrayList;
 
-public abstract class WordSetAdapter extends SimpleRecyclerAdapter<WordSet> {
+public abstract class WordSetAdapter extends SimpleRecyclerFilterAdapter<WordSet> {
     public WordSetAdapter() {
     }
 
