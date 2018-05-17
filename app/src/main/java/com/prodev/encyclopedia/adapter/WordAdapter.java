@@ -54,7 +54,7 @@ public abstract class WordAdapter extends SimpleRecyclerAdapter<Word> {
             public boolean onLongClick(View v) {
                 CopyTools.setClipboard(getContext(), word.getText());
                 Toast.makeText(getContext(), getContext().getString(R.string.copied), Toast.LENGTH_SHORT).show();
-
+                
                 return true;
             }
         });
