@@ -109,7 +109,9 @@ public class SourceFragment extends SimpleFragment {
                     @Override
                     public void onClick(View view) {
                         try {
-                            file.delete();
+                            boolean success = file.delete();
+                            if (success)
+                                Toast.makeText(getActivity(), getString(R.string.removed_file), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                         }
 

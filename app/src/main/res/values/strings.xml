@@ -46,6 +46,7 @@
     <string name="path">&lt;Path&gt;</string>
 
     <string name="remove_file">Delete file</string>
+    <string name="removed_file">Deleted file</string>
 
     <string name="export_words">Export words</string>
     <string name="enter_file_name">Enter file name</string>
