@@ -60,5 +60,8 @@
     <string name="imported_successfully">Imported successfully</string>
     <string name="import_failed">Import failed</string>
 
+    <string name="exported_successfully">Exported successfully</string>
+    <string name="export_failed">Export failed</string>
+
     <string name="file_exists">File already exists</string>
 </resources>

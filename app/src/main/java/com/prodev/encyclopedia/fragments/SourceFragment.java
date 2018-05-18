@@ -196,13 +196,17 @@ public class SourceFragment extends SimpleFragment {
         EditDialog dialog = new EditDialog(getActivity()) {
             @Override
             public void onResult(String text) {
-                if (text.length() > 0) {
+                try {
                     String code = sourceHelper.saveAllSource(text);
 
                     File file = new File(folder, fileName + Config.FILE_EXTENSION);
                     FileTools.saveFile(file, code);
 
                     loadFiles();
+
+                    Toast.makeText(getActivity(), getString(R.string.exported_successfully), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), getString(R.string.export_failed), Toast.LENGTH_SHORT).show();
                 }
             }
         };
