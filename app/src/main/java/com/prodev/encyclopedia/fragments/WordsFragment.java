@@ -12,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prodev.encyclopedia.MainActivity;
 import com.prodev.encyclopedia.R;
 import com.prodev.encyclopedia.adapter.WordSetAdapter;
+import com.prodev.encyclopedia.container.Language;
 import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.container.WordSet;
 import com.prodev.encyclopedia.dialogs.custom.WordAddDialog;
@@ -165,6 +167,11 @@ public class WordsFragment extends SimpleFragment {
     }
 
     private void openAddDialog() {
+        if (Language.getLanguageCount() <= 0) {
+            Toast.makeText(getActivity(), getString(R.string.add_language_first), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         WordAddDialog addDialog = new WordAddDialog(getActivity()) {
             @Override
             public void onAdd(WordSet set) {
@@ -177,6 +184,9 @@ public class WordsFragment extends SimpleFragment {
                         if (!wordSetExists(allWords, set)) {
                             adapter.add(set);
                             encyclopedia.addWord(set);
+
+                            if (adapter.getListSize() > 0)
+                                adapter.smoothScrollToPosition(adapter.getListSize() - 1);
                         }
                     } catch (Exception e) {
                     }

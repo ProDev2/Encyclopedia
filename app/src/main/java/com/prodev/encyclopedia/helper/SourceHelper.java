@@ -61,22 +61,25 @@ public class SourceHelper {
         }
 
         try {
-            fetchAllWords();
+            if (code.length() > 0) {
+                fetchAllWords();
 
-            Type type = new TypeToken<ArrayList<WordSet>>() {}.getType();
-            ArrayList<WordSet> setList = new Gson().fromJson(code, type);
+                Type type = new TypeToken<ArrayList<WordSet>>() {}.getType();
+                ArrayList<WordSet> setList = new Gson().fromJson(code, type);
 
-            for (WordSet set : setList) {
-                addWordSet(set);
+                for (WordSet set : setList) {
+                    addWordSet(set);
+                }
+
+                LanguageFetcher.globalSave();
+                EncyclopediaFetcher.globalSave();
+
+                return true;
             }
-
-            LanguageFetcher.globalSave();
-            EncyclopediaFetcher.globalSave();
-
-            return true;
         } catch (Exception e) {
-            return false;
         }
+
+        return false;
     }
 
     private void fetchAllWords() {

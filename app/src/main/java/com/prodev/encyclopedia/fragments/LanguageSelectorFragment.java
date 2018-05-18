@@ -162,6 +162,7 @@ public class LanguageSelectorFragment extends SimpleFragment {
                         }
                     }
                 };
+                dialog.setTitle(getString(R.string.add_language));
                 dialog.setHint(getString(R.string.enter_language_name));
                 dialog.show();
             }

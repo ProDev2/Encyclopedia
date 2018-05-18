@@ -18,6 +18,10 @@ import com.prodev.encyclopedia.fragments.TranslationFragment;
 import com.prodev.encyclopedia.fragments.WordsFragment;
 import com.simplelib.SimpleActivity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+
 public class MainActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static MainActivity activity;
 
@@ -27,19 +31,6 @@ public class MainActivity extends SimpleActivity implements NavigationView.OnNav
 
     public MainActivity() {
         activity = this;
-    }
-
-    public static void switchToMenuItem(int id, boolean switchFragment) {
-        try {
-            if (activity != null) {
-                MenuItem item = activity.navigationView.getMenu().findItem(id);
-                item.setChecked(true);
-
-                if (switchFragment)
-                    activity.onNavigationItemSelected(item);
-            }
-        } catch (Exception e) {
-        }
     }
 
     @Override
@@ -63,6 +54,16 @@ public class MainActivity extends SimpleActivity implements NavigationView.OnNav
             if (navigationView.getMenu().size() > 0) {
                 navigationView.getMenu().getItem(0).setChecked(true);
                 onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void requestPermission() {
+        try {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 2222);
             }
         } catch (Exception e) {
         }
@@ -117,6 +118,19 @@ public class MainActivity extends SimpleActivity implements NavigationView.OnNav
             int count = fm.getBackStackEntryCount();
             for (int i = 0; i < count; ++i) {
                 fm.popBackStackImmediate();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void switchToMenuItem(int id, boolean switchFragment) {
+        try {
+            if (activity != null) {
+                MenuItem item = activity.navigationView.getMenu().findItem(id);
+                item.setChecked(true);
+
+                if (switchFragment)
+                    activity.onNavigationItemSelected(item);
             }
         } catch (Exception e) {
         }

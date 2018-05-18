@@ -11,8 +11,10 @@ import com.prodev.encyclopedia.R;
 import com.prodev.encyclopedia.dialogs.CustomDialog;
 
 public abstract class EditDialog extends CustomDialog {
+    private TextView titleView;
     private EditText inputView;
 
+    private String title;
     private String text;
     private String hint;
 
@@ -25,6 +27,13 @@ public abstract class EditDialog extends CustomDialog {
 
         setCancelable(true);
         setTheme(R.style.DialogStyle);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+
+        if (titleView != null && title != null)
+            titleView.setText(title);
     }
 
     public void setText(String text) {
@@ -47,10 +56,17 @@ public abstract class EditDialog extends CustomDialog {
 
     @Override
     public void create(View contentView) {
+        titleView = (TextView) findViewById(R.id.edit_dialog_title);
         inputView = (EditText) findViewById(R.id.edit_dialog_input);
 
+        if (title != null) titleView.setText(title);
         if (text != null) inputView.setText(text);
         if (hint != null) inputView.setHint(hint);
+
+        if (title == null)
+            titleView.setVisibility(View.GONE);
+        else
+            titleView.setVisibility(View.VISIBLE);
 
         inputView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

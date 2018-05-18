@@ -9,9 +9,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.prodev.encyclopedia.Config;
 import com.prodev.encyclopedia.R;
 import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.container.WordSet;
+import com.prodev.encyclopedia.tools.TextTools;
 import com.simplelib.adapter.SimpleRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -51,9 +53,12 @@ public class WordInputAdapter extends SimpleRecyclerAdapter<Word> {
         try {
             titleView.setText(word.getLanguage().getName());
 
-            if (!word.isEmpty())
-                editText.setText(word.getText());
-            else
+            if (!word.isEmpty()) {
+                String text = word.getText();
+                if (text.contains("\n"))
+                    text = text.replace("\n", Config.WORD_SEPARATOR + " ");
+                editText.setText(text);
+            } else
                 editText.setText("");
         } catch (Exception e) {
         }
@@ -69,7 +74,9 @@ public class WordInputAdapter extends SimpleRecyclerAdapter<Word> {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                word.setText(s.toString());
+                String text = s.toString();
+                text = TextTools.parseText(text, Config.WORD_SEPARATOR, "\n");
+                word.setText(text);
 
                 if (set != null)
                     set.put(word);

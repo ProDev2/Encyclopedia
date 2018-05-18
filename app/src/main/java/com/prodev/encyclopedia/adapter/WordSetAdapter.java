@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.prodev.encyclopedia.Config;
 import com.prodev.encyclopedia.R;
 import com.prodev.encyclopedia.container.Word;
 import com.prodev.encyclopedia.container.WordSet;
 import com.prodev.encyclopedia.dialogs.custom.EditDialog;
+import com.prodev.encyclopedia.tools.TextTools;
 import com.simplelib.adapter.SimpleRecyclerAdapter;
 import com.simplelib.adapter.SimpleRecyclerFilterAdapter;
 
@@ -59,6 +61,8 @@ public abstract class WordSetAdapter extends SimpleRecyclerFilterAdapter<WordSet
         EditDialog dialog = new EditDialog(getContext()) {
             @Override
             public void onResult(String text) {
+                text = TextTools.parseText(text, Config.WORD_SEPARATOR, "\n");
+
                 WordSet fromSet = set.copy();
 
                 editWord.setText(text);
@@ -76,9 +80,14 @@ public abstract class WordSetAdapter extends SimpleRecyclerFilterAdapter<WordSet
                 onEdit(fromSet, set);
             }
         };
+        dialog.setTitle(editWord.getLanguage().getName());
         dialog.setHint(getContext().getString(R.string.enter_word_text));
-        if (!editWord.isEmpty())
-            dialog.setText(editWord.getText());
+        if (!editWord.isEmpty()) {
+            String text = editWord.getText();
+            if (text.contains("\n"))
+                text = text.replace("\n", Config.WORD_SEPARATOR + " ");
+            dialog.setText(text);
+        }
         dialog.show();
     }
 

@@ -163,7 +163,7 @@ public class TranslationFragment extends SimpleFragment {
         translationLayout = (CardView) findViewById(R.id.translation_fragment_translation_layout);
 
         translationHeaderButton = (Button) findViewById(R.id.translation_fragment_translation_header);
-        translationCopyButton = (ImageButton) findViewById(R.id.translation_fragment_translation_copy);
+        translationCopyButton = (ImageButton) findViewById(R.id.source_item_import);
 
         translationCopyButton.setOnClickListener(new View.OnClickListener() {
             @Override

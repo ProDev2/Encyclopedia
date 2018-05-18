@@ -71,11 +71,20 @@ public class TranslationSet extends Word implements Iterable<Translation> {
     public void add(Translation translation) {
         if (translation != null && !translation.isEmpty()) {
             Translation foundTranslation = getTranslationBy(translation.getFrom());
+
+            if (foundTranslation == null) {
+                foundTranslation = new Translation(translation.getFrom(), translation.getToLanguage());
+                translations.add(foundTranslation);
+            }
+
             if (foundTranslation != null && foundTranslation.isSameTranslationAs(translation)) {
                 for (Word word : translation) {
-                    foundTranslation.addTranslation(word);
+                    if (word.getText().contains("\n")) {
+                        for (String subText : word.getText().split("\n"))
+                            foundTranslation.addTranslation(new Word(word.getLanguage(), subText));
+                    } else foundTranslation.addTranslation(word);
                 }
-            } else translations.add(translation);
+            }
         }
     }
 

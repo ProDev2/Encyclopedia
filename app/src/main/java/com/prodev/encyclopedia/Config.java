@@ -8,4 +8,8 @@ public class Config {
     public static final String STORAGE_WORDS = "words";
 
     public static final float SWITCH_MOVEMENT = 0.2f;
+
+    public static final String WORD_SEPARATOR = ",";
+
+    public static final String FILE_EXTENSION = ".save";
 }

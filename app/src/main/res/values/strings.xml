@@ -28,6 +28,9 @@
     <string name="all_languages">All languages</string>
     <string name="remove_language">Remove language</string>
 
+    <string name="add_language_first">Add language first</string>
+
+    <string name="add_language">Add language</string>
     <string name="remove_word">Remove word</string>
 
     <string name="enter_language_name">Enter language name</string>
@@ -38,4 +41,23 @@
     <string name="translations_found_info">(@c translations)</string>
     
     <string name="copied">Copied to clipboard</string>
+
+    <string name="file">&lt;File&gt;</string>
+    <string name="path">&lt;Path&gt;</string>
+
+    <string name="remove_file">Delete file</string>
+
+    <string name="export_words">Export words</string>
+    <string name="enter_file_name">Enter file name</string>
+
+    <string name="cryption_key">Cryption key</string>
+    <string name="enter_cryption_key">Enter cryption key</string>
+
+    <string name="decryption_key">Decryption key</string>
+    <string name="enter_decryption_key">Enter decryption key</string>
+
+    <string name="imported_successfully">Imported successfully</string>
+    <string name="import_failed">Import failed</string>
+
+    <string name="file_exists">File already exists</string>
 </resources>
