@@ -37,6 +37,11 @@ public class WordSet implements Iterable<Word> {
         }
     }
 
+    public void put(WordSet set) {
+        for (Word word : set.getAllWords())
+            put(word);
+    }
+
     public void put(int languageId, String word) {
         put(Language.getById(languageId), word);
     }
@@ -57,6 +62,31 @@ public class WordSet implements Iterable<Word> {
                 if (index >= 0)
                     list.set(index, word);
             }
+        }
+    }
+
+    public void add(WordSet set) {
+        for (Word word : set.getAllWords())
+            add(word);
+    }
+
+    public void add(int languageId, String word) {
+        add(Language.getById(languageId), word);
+    }
+
+    public void add(Language language, String word) {
+        add(new Word(language, word));
+    }
+
+    public void add(Word word) {
+        if (!Language.languageExists(word.getLanguage())) return;
+
+        if (!contains(word))
+            list.add(word);
+        else {
+            Word oldWord = get(word.getLanguage());
+            if (oldWord != null)
+                oldWord.addWord(word);
         }
     }
 
@@ -122,6 +152,17 @@ public class WordSet implements Iterable<Word> {
             }
         }
         return true;
+    }
+
+    public boolean matchesAtLeastOne(WordSet set) {
+        if (set != null && !set.isEmpty()) {
+            for (Word item : getAllWords()) {
+                Word setItem = set.get(item.getLanguage());
+                if (setItem != null && item.matchesAtLeastOne(setItem))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<Word> getAllWords() {

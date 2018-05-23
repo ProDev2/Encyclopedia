@@ -101,9 +101,18 @@ public class SourceHelper {
             try {
                 if (!wordSetExists(set)) {
                     Encyclopedia encyclopedia = EncyclopediaFetcher.getGlobalEncyclopedia();
-                    encyclopedia.addWord(set);
 
-                    allWords.add(set);
+                    WordSet matchableSet = getMatchableSet(set);
+                    if (matchableSet != null && !matchableSet.isEmpty()) {
+                        WordSet oldSet = matchableSet.copy();
+                        matchableSet.add(set);
+
+                        encyclopedia.editWord(oldSet, matchableSet);
+                    } else {
+                        encyclopedia.addWord(set);
+
+                        allWords.add(set);
+                    }
                 }
             } catch (Exception e) {
             }
@@ -116,6 +125,14 @@ public class SourceHelper {
                 return true;
         }
         return false;
+    }
+
+    private WordSet getMatchableSet(WordSet set) {
+        for (WordSet item : allWords) {
+            if (item.matchesAtLeastOne(set))
+                return item;
+        }
+        return null;
     }
 
     public boolean canAddWord() {

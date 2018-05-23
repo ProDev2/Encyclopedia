@@ -1,5 +1,8 @@
 package com.prodev.encyclopedia.container;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Word {
     private Language language;
     private String text;
@@ -43,6 +46,52 @@ public class Word {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void addWord(Word word) {
+        addWord(word.getText());
+    }
+
+    public void addWord(String word) {
+        if (word != null && word.length() > 0) {
+            if (text == null || (text != null && text.length() <= 0))
+                text = word;
+            else if (!hasWord(word))
+                text += "\n" + word;
+        }
+    }
+
+    public boolean hasWord(Word word) {
+        return hasWord(word.getText());
+    }
+
+    public boolean hasWord(String word) {
+        for (String item : getWords()) {
+            if (item.equals(word))
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> getWords() {
+        ArrayList<String> words = new ArrayList<>();
+        if (text != null && text.length() > 0) {
+            if (text.contains("\n"))
+                words.addAll(Arrays.asList(text.split("\n")));
+            else
+                words.add(text);
+        }
+        return words;
+    }
+
+    public boolean matchesAtLeastOne(Word word) {
+        if (word != null && !word.isEmpty()) {
+            for (String item : getWords()) {
+                if (word.hasWord(item))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public boolean isEmpty() {
